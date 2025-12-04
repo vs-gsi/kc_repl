@@ -1,0 +1,24 @@
+#!/bin/bash
+TGT=./bin
+BOUNCY_VER=1.82
+BOUNCY_JAR=bcprov-jdk18on-"$BOUNCY_VER".jar
+BOUNCY_LIB_URL=https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk18on/"$BOUNCY_VER"/"$BOUNCY_JAR"
+. kc_build
+if [[ $? == "0" ]] ; then
+  echo build successful. Proceeding with install
+  TGT_LIB="$TGT"/client/lib 
+  mkdir -p $TGT_LIB
+  [[ -e "$TGT/rkc.sh" ]] || cp rkc.sh "$TGT"
+  ADM_JAR=`ls -1 $ADMCLI/target/keycloak-admin-cli-*SNAPSHOT.jar`
+  cp -v "$ADM_JAR" "$TGT/client/"
+  for mroot in "$CRYDFT" "$CRYFPS" ; do
+    cp -v `ls -1 "$mroot"/target/keycloak-crypto-*-SNAPSHOT.jar` $TGT_LIB
+  done
+  (
+    cd $TGT_LIB
+    [[ -e $BOUNCY_JAR ]] && echo "bouncy already there" || curl -LO "$BOUNCY_LIB_URL"
+  )
+  [[ -e "$TGT/ReplLoader.class" ]] || cp ReplLoader.class "$TGT/client"
+  echo "everything set up in lib (`pwd`/lib) ."
+fi
+

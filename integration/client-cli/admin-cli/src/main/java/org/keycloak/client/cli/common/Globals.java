@@ -48,6 +48,23 @@ public class Globals {
         int exitCode = cli.execute(args);
         System.exit(exitCode);
     }
+    public static void repl_main(String [] args, BaseGlobalOptionsCmd rootCommand, String command, String defaultConfigFile) {
+        String libDir = System.getProperty("kc.lib.dir");
+        if (libDir == null) {
+            throw new RuntimeException("System property kc.lib.dir needs to be set");
+        }
+        ClassLoader cl = ClassLoaderUtil.resolveClassLoader(libDir);
+        Thread.currentThread().setContextClassLoader(cl);
+
+        CryptoIntegration.init(cl);
+
+        System.setProperty(BaseAuthOptionsCmd.DEFAULT_CONFIG_PATH_STRING_KEY, defaultConfigFile);
+        CommandLine cli = createCommandLine(rootCommand, command, new PrintWriter(System.err, true));
+        int exitCode = cli.execute(args);
+        //System.out.print(""+exitCode+" : ");
+        //System.exit(exitCode);
+        return;
+    }
 
     public static CommandLine createCommandLine(BaseGlobalOptionsCmd rootCommand, String command, PrintWriter errorWriter) {
         CommandSpec spec = CommandSpec.forAnnotatedObject(rootCommand).name(command);

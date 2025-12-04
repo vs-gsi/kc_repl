@@ -52,7 +52,8 @@ public class KcAdmMain {
     };
 
     public static void main(String [] args) {
-        Globals.main(args, new KcAdmCmd(), CMD, DEFAULT_CONFIG_FILE_STRING);
+        //Globals.main(args, new KcAdmCmd(), CMD, DEFAULT_CONFIG_FILE_STRING);
+        Globals.repl_main(args, new KcAdmCmd(), CMD, DEFAULT_CONFIG_FILE_STRING);
     }
 
 }
