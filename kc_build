@@ -15,7 +15,7 @@ CRYFPS=crypto/fips1402
 for mroot in "$ADMCLI" "$CRYDFT" "$CRYFPS" ; do
   ( 
     cd "$mroot"
-    mvn -Dmaven.tests.skip=true verify
+    mvn -Dmaven.test.skip=true verify
   )
 done
 #if [[ $? == "0" ]] ; then ...
