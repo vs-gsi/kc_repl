@@ -66,9 +66,11 @@ public class KcAdmCmd extends BaseGlobalOptionsCmd {
     }
 
     public static String usage() {
+        String add_greet = System.getProperty("kcr.msg.greet_addon");
+        add_greet = add_greet == null ? "" : " ("+add_greet+")";
         StringWriter sb = new StringWriter();
         PrintWriter out = new PrintWriter(sb);
-        out.println("Keycloak Admin CLI");
+        out.println("Keycloak Admin CLI"+add_greet);
         out.println();
         out.println("Use '" + CMD + " config credentials' command with username and password to start a session against a specific");
         out.println("server and realm.");

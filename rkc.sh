@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 case "$(uname)" in
     CYGWIN*)
         CFILE="$(cygpath "$0")"
@@ -28,4 +28,15 @@ if [ -z "$JAVA" ]; then
     fi
 fi
 
-eval exec "$JAVA" --add-opens=java.base/java.security=ALL-UNNAMED -Dkc.lib.dir=$DIRNAME/client/lib ReplLoader org.keycloak.client.admin.cli.KcAdmMain $DIRNAME/client/keycloak-admin-cli-*.jar
+declare -A EXTRA_PROPS
+EXTRA_PROPS['kcr.msg.greet_addon']="'with REPL mod'"
+EXTRA_OPTS=
+for prop in ${!EXTRA_PROPS[@]} ; do
+  if [[ $EXTRA_OPTS ]] ; then
+    EXTRA_OPTS=$EXTRA_OPTS" -D$prop"="${EXTRA_PROPS[$prop]}"
+  else
+    EXTRA_OPTS=-D"$prop"="${EXTRA_PROPS[$prop]}"
+  fi
+done
+echo $EXTRA_OPTS
+eval exec "$JAVA" "$EXTRA_OPTS" --add-opens=java.base/java.security=ALL-UNNAMED -Dkc.lib.dir=$DIRNAME/client/lib ReplLoader org.keycloak.client.admin.cli.KcAdmMain $DIRNAME/client/keycloak-admin-cli-*.jar
