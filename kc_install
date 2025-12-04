@@ -19,6 +19,7 @@ if [[ $? == "0" ]] ; then
     [[ -e $BOUNCY_JAR ]] && echo "bouncy already there" || curl -LO "$BOUNCY_LIB_URL"
   )
   [[ -e "$TGT/ReplLoader.class" ]] || cp ReplLoader.class "$TGT/client"
-  echo "everything set up in bin (`pwd`/bin) ."
+  echo "everything set up in $TGT"
+  echo "run ' $TGT/rkc.sh ' to start in perma mode"
 fi
 
