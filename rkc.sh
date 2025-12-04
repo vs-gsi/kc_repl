@@ -28,5 +28,4 @@ if [ -z "$JAVA" ]; then
     fi
 fi
 
-#echo eval "$JAVA" --add-opens=java.base/java.security=ALL-UNNAMED -Dkc.lib.dir=$DIRNAME/client/lib ReplLoader org.keycloak.client.admin.cli.KcAdmMain $DIRNAME/client/keycloak-admin-cli-26.4.7.jar
 eval exec "$JAVA" --add-opens=java.base/java.security=ALL-UNNAMED -Dkc.lib.dir=$DIRNAME/client/lib ReplLoader org.keycloak.client.admin.cli.KcAdmMain $DIRNAME/client/keycloak-admin-cli-*.jar
